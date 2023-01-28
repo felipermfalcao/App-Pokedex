@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useWindowDimensions, View, Modal, StatusBar, Animated, Easing} from 'react-native';
-import { Text, Box, FlatList, VStack, Input, Icon,
-        Center, Image } from "native-base";
+import { useWindowDimensions, View, Modal, StatusBar, Animated, Easing } from 'react-native';
+import { Text, Box, FlatList, VStack, Input, Icon, Image } from "native-base";
 import axios from 'axios';
 import {Ionicons} from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
@@ -29,16 +28,50 @@ const spin = spinValue.interpolate({
   outputRange: ['0deg', '0deg']
 })
 
-const FirstRoute = (props) => (     
-        <Box alignItems={'center'}>
+const FirstRoute = (props) => {  
+const [pokemon, setPokemon] = useState(0);
+const [modalVisible, setModalVisible] = useState(false);  
+
+function idPokemon(id){
+  setPokemon(id);
+  setModalVisible(true);
+}
+
+  
+  return (
+    <Box alignItems={'center'}>
+
+      <Modal
+        animationType='fade'
+        hardwareAccelerated={true}
+        transparent={true}
+        visible={modalVisible}
+      //   onShow={() => {
+      //     InteractionManager.runAfterInteractions(() => {
+      //         //console.log('terminou de montar modal');
+      //     });
+      // }}
+        onRequestClose={() => {
+            setModalVisible(false);
+          }}
+        >
+
+      <View flex={1}>
+        <ModalPokemon data={pokemon} setModalVisible={() => setModalVisible(false)} />
+      </View>
+      </Modal>
+
         <FlatList
         numColumns={'2'}
         data={props.pokemons}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={1000}
         renderItem={({item}) => <CardPokemonHome pokemons={item} 
-                                                 pokemon={props.pokemon}/>}
+                                                 pokemon={idPokemon}/>}
         />
-        </Box>
-);
+    </Box>
+  );
+}
 
 const SecondRoute = () => (
   <View style={{ flex: 1, backgroundColor: '#fff', justifyContent:'center', alignItems:'center'}}>
@@ -60,22 +93,41 @@ const QuartaRoute = () => (
 
 
 export default function Home(){
+
+// const [search, setSearch] = useState(''); 
+// const [filteredData, setFilteredData] = useState([]); 
+// const [masterData, setMasterData] = useState([]);
+
+//console.log('renderizou')
 const [pokemons, setPokemons] = useState([]);
-const [pokemon, setPokemon] = useState(0);
-const [modalVisible, setModalVisible] = useState(false);
 
 const {height, width} = useWindowDimensions();
 const alturaTopo = height * 0.25;
 const alturaList = height * 0.75;
 
-function idPokemon(id){
-  setPokemon(id);
-  setModalVisible(true);
-}
+
+
+// const searchFilter = (text) => {
+//   if (text) {
+//     const newData = masterData.filter(
+//       function (item) {
+//         if (item.name) {
+//           const itemData = item.name.toUpperCase();
+//           const textData = text.toUpperCase();
+//           return itemData.indexOf(textData) > -1;
+//         }
+//     });
+//     setFilteredData(newData);
+//     setSearch(text);
+//   } else {
+//     setFilteredData(masterData);
+//     setSearch(text);
+//   }
+// };
 
 
 const renderScene = SceneMap({
-  1: () => <FirstRoute pokemons={pokemons} pokemon={idPokemon} />,
+  1: () => <FirstRoute pokemons={pokemons} />,
   2: SecondRoute,
   3: TerceiraRoute,
   4: QuartaRoute,
@@ -113,7 +165,7 @@ const [routes] = React.useState([
 
 const getPokemons = async () => {
   const query = `query MyQuery {
-    pokemon_v2_pokemon(limit: 20) {
+    pokemon_v2_pokemon (limit: 150) {
       id
       name
       pokemon_species_id
@@ -136,9 +188,11 @@ const getPokemons = async () => {
     });
 
     setPokemons(res.data.data.pokemon_v2_pokemon);
+    // setFilteredData(res.data.data.pokemon_v2_pokemon);
+    // setMasterData(res.data.data.pokemon_v2_pokemon);
     //console.log(pokemons);
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -151,19 +205,7 @@ const getPokemons = async () => {
     <Box flex={1} safeArea backgroundColor={'#fff'}>
       <StatusBar backgroundColor='#FA8488' barStyle='light-content'/>
 
-      <Modal
-        animationType='fade'
-        hardwareAccelerated={true}
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-            setModalVisible(false);
-          }}
-        >
-      <View flex={1}>
-        <ModalPokemon data={pokemon} setModalVisible={() => setModalVisible(false)} />
-      </View>
-      </Modal>
+      
 
       <Box flex={1} backgroundColor='#FA8488' borderBottomRadius={20}
       justifyContent={'flex-end'} marginBottom='2'>
@@ -184,6 +226,8 @@ const getPokemons = async () => {
                 backgroundColor={'#f8a8ac'} color={'#fff'}
                 placeholderTextColor={'#fff'} fontWeight='normal' fontSize={14}
                 marginTop='2'
+                // onChangeText={(text) => searchFilter(text)}
+                //   value={search}
                 InputLeftElement={<Icon ml="2" size="6" color="#fff"
                                         as={<Ionicons name="ios-search" />} />} />
         </VStack>          

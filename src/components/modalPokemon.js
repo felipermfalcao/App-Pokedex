@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import { View, Pressable, StatusBar, ActivityIndicator, Animated, Easing } from 'react-native';
+import React, {useState, useEffect, memo} from 'react';
+import { View, Pressable, StatusBar, ActivityIndicator, Animated, Easing,
+         InteractionManager, useWindowDimensions } from 'react-native';
 import { Icon, HStack, Box, Text, Image, ScrollView } from "native-base";
 import {Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 
-export default function ModalPokemon(props) {
+function ModalPokemon(props) {
   const [pokemonDetalhe, setPokemonDetalhe] = useState([]);
   const [idPokemon, setIdPokemon] = useState(props.data);
   const [loading, setLoading] = useState(true);
   const [loadingImg, setLoadingImg] = useState(true);
+
+  const {height, width} = useWindowDimensions();
 
 const spinValue = new Animated.Value(0);
 
@@ -93,21 +96,32 @@ const spin = spinValue.interpolate({
       setLoading(false);
       //console.log(pokemonDetalhe[0].name);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
   
     useEffect(() => {
-      getPokemons();
+      InteractionManager.runAfterInteractions(() => {
+        getPokemons();
+        //console.log('chamou');
+    });
+
       //console.log(idPokemon);
     }, [idPokemon]);
 
 if(loading)
 {
   return (
-    <View style={{flex: 1, backgroundColor: '#FA8488', justifyContent: 'center'}}>
-    <ActivityIndicator size="large" />
-    <Text style={{textAlign: 'center', color: '#fff'}}>Carregando dados</Text>
+    <View style={{flex: 1, backgroundColor: 'rgba(250,132,136,0.9)', justifyContent: 'center', 
+                  alignItems: 'center'}}>
+      <Image 
+      style={{height: 250, width: 250 }}
+      zIndex={-1} opacity={1} position={'absolute'}
+                source={require('../img/logopoke_m.png')} 
+                alt='imageTop'
+      />
+    <ActivityIndicator size="large" style={{marginTop: 17}} />
+    <Text style={{textAlign: 'center', color: '#fff'}}></Text>
     </View>
   );
 }
@@ -311,3 +325,5 @@ else
   );
 }
 }
+
+export default memo(ModalPokemon);

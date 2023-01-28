@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { ImageBackground, useWindowDimensions, Pressable  } from 'react-native';
 import { Text, Box, HStack, Image, Modal  } from "native-base";
 import {Ionicons} from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureDetector , Gesture} from 'react-native-gesture-handler';
 
-export default function CardPokemonHome (props){
+function CardPokemonHome (props){
 
     const isPressed = useSharedValue(false);
     const offset = useSharedValue({ x: 0, y: 0 });
@@ -183,3 +183,5 @@ export default function CardPokemonHome (props){
         </GestureDetector>
     );
 }
+
+export default memo (CardPokemonHome);
