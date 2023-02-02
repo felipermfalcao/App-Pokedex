@@ -10,7 +10,7 @@ import 'react-native-gesture-handler';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Home from "./src/pages/Home";
-import Pesquisa from "./src/pages/Pesquisa";
+import Teste from "./src/pages/Pesquisa";
 import Desenvolvimento from "./src/pages/Desenvolvimento";
 
 const Tab = createBottomTabNavigator();
@@ -40,7 +40,7 @@ export default function App() {
               iconName = focused ? 'map' : 'map-outline';
             }
             else if (route.name === 'Temp4') {
-              iconName = focused ? 'person' : 'person-outline';
+              iconName = focused ? 'cafe' : 'cafe-outline';
             }
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color='#4e637a' />;
@@ -53,9 +53,13 @@ export default function App() {
         })}      
         >
           <Tab.Screen name="Home" component={Home} options={{ headerShown: false, tabBarShowLabel: false }}/>
-          <Tab.Screen name="Temp1" component={Pesquisa} options={{ headerShown: false, tabBarShowLabel: false}}/>
+          {/* <Tab.Screen name="Temp1" component={Pesquisa} options={{ headerShown: false, tabBarShowLabel: false,
+          // tabBarButton: props => (
+          //   <TouchableOpacity {...props} onPress={() => alert(123)} />
+          // ),
+          }}/>
           <Tab.Screen name="Pesquisa" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false}}/>
-          <Tab.Screen name="Temp3" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false }}/>
+          <Tab.Screen name="Temp3" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false }}/> */}
           <Tab.Screen name="Temp4" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false }}/>
         </Tab.Navigator>
       </NativeBaseProvider>

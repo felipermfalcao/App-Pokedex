@@ -169,7 +169,8 @@ function CardPokemonHome (props){
                 <Box>
                     <Image size={100} marginTop={-5}
                     alt={'pokemon'}
-                    source={{uri:`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${formatNumberImg(props.pokemons.id)}.png`}} 
+                    source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.pokemons.id}.png`}} 
+                    //source={{uri:`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${formatNumberImg(props.pokemons.id)}.png`}} 
                     />
                 </Box>
             </HStack>

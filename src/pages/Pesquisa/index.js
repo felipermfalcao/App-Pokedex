@@ -1,40 +1,24 @@
 import React from "react";
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Modal } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { GestureDetector , Gesture} from 'react-native-gesture-handler';
-  
+import { GestureDetector , Gesture, gestureHandlerRootHOC} from 'react-native-gesture-handler';
 
-export default function Ball() {
+import Ball from "../../components/testeTouch";
 
-const isPressed = useSharedValue(false);
-const offset = useSharedValue({ x: 0, y: 0 });
-const animatedStyles = useAnimatedStyle(() => {
-  return {
-    transform: [
-      { translateX: offset.value.x },
-      { translateY: offset.value.y },
-      { scale: withSpring(isPressed.value ? 0.5 : 1) },
-    ],
-    backgroundColor: isPressed.value ? '#003265' : 'blue',
-  };
-});
+const ExampleWithHoc = gestureHandlerRootHOC(() => (
+  <View>
+    <Ball />
+  </View>
+)
+)
 
-const start = useSharedValue({ x: 0, y: 0 });
-const gesture = Gesture.Tap()
-  .onBegin(() => {
-    isPressed.value = true;
-  })
-  .onFinalize(() => {
-    isPressed.value = false;
-  });
+export default function Teste() {
 
     return (
-      <View>
-      <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.ball, animatedStyles]} />
-      </GestureDetector>
-
-      </View>      
+      <Modal
+      visible={true}>
+      <ExampleWithHoc />
+    </Modal>     
     );
   }
 
