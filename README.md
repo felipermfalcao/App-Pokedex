@@ -3,7 +3,7 @@
 
 App desenvolvido em React Native. Ainda tentando publicar o app na Play Store, estou tendo problemas com a política e as minhas screenshots.
 
-- [API](pokeapi.co)
+- [API - Pokeapi](pokeapi.co)
 
 ## Screenshots
 ![App Screenshot](https://github.com/felipermfalcao/falcondev/blob/main/public/img/projects/pokedex/pokedex1.jpg)
