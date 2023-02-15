@@ -1,11 +1,12 @@
 import React, { useState, memo } from 'react';
-import { ImageBackground, useWindowDimensions, Pressable  } from 'react-native';
+import { ImageBackground, useWindowDimensions, Pressable, ActivityIndicator  } from 'react-native';
 import { Text, Box, HStack, Image, Modal  } from "native-base";
 import {Ionicons} from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureDetector , Gesture} from 'react-native-gesture-handler';
 
 function CardPokemonHome (props){
+    const [loading, setLoading] = useState(true);
 
     const isPressed = useSharedValue(false);
     const offset = useSharedValue({ x: 0, y: 0 });
@@ -167,8 +168,11 @@ function CardPokemonHome (props){
                 </Box>
 
                 <Box>
+                {loading && <ActivityIndicator size="large" color="#fff" />}
                     <Image size={100} marginTop={-5}
                     alt={'pokemon'}
+                    onLoadStart={() => setLoading(true)}
+                    onLoadEnd={() => setLoading(false)}
                     source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.pokemons.id}.png`}} 
                     //source={{uri:`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${formatNumberImg(props.pokemons.id)}.png`}} 
                     />

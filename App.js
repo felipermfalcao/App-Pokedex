@@ -18,52 +18,9 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <NavigationContainer>
       <NativeBaseProvider>
-        <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-  
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'home'
-                : 'home-outline';
-            }
-            else if (route.name === 'Temp1') {
-              iconName = focused ? 'earth' : 'earth-outline';
-            }
-            else if (route.name === 'Pesquisa') {
-              iconName = focused ? 'search' : 'search-outline';
-            }
-            else if (route.name === 'Temp3') {
-              iconName = focused ? 'map' : 'map-outline';
-            }
-            else if (route.name === 'Temp4') {
-              iconName = focused ? 'cafe' : 'cafe-outline';
-            }
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color='#4e637a' />;
-          },
-          tabBarInactiveTintColor: '#4e637a',
-          tabBarActiveTintColor: '#4e637a',
-          tabBarActiveBackgroundColor: '#fff',
-          tabBarInactiveBackgroundColor: '#fff'
-          
-        })}      
-        >
-          <Tab.Screen name="Home" component={Home} options={{ headerShown: false, tabBarShowLabel: false }}/>
-          {/* <Tab.Screen name="Temp1" component={Pesquisa} options={{ headerShown: false, tabBarShowLabel: false,
-          // tabBarButton: props => (
-          //   <TouchableOpacity {...props} onPress={() => alert(123)} />
-          // ),
-          }}/>
-          <Tab.Screen name="Pesquisa" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false}}/>
-          <Tab.Screen name="Temp3" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false }}/> */}
-          <Tab.Screen name="Temp4" component={Desenvolvimento} options={{ headerShown: false, tabBarShowLabel: false }}/>
-        </Tab.Navigator>
+        <Home />
       </NativeBaseProvider>
-    </NavigationContainer>
     </GestureHandlerRootView>
   );
 }

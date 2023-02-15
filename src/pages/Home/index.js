@@ -196,7 +196,7 @@ const searchFilter = (text) => {
          />
         <Text fontSize={40} fontWeight='black' color={'#fff'} paddingLeft={5} 
                 marginBottom={0}>
-              Pokélist
+              BulbaDex
         </Text>
 
         <HStack w="100%" paddingX={5} alignSelf="center" marginBottom={5}>
