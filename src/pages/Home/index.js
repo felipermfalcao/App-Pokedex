@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useWindowDimensions, View, Modal, StatusBar, Animated, Easing,
-        ActivityIndicator, Pressable } from 'react-native';
-import { Text, Box, FlatList, VStack, Input, Icon, Image, Button, HStack } from "native-base";
+  ActivityIndicator, Pressable, TextInput, Text } from 'react-native';
 import axios from 'axios';
 import {Ionicons} from '@expo/vector-icons';
 import { FlashList } from "@shopify/flash-list";
@@ -9,6 +8,9 @@ import { gestureHandlerRootHOC} from 'react-native-gesture-handler';
 
 import CardPokemonHome from '../../components/CardPokemonHome';
 import ModalPokemon from '../../components/modalPokemon';
+
+
+
 
 
 const spinValue = new Animated.Value(0);
@@ -165,7 +167,7 @@ const searchFilter = (text) => {
 
   return (
     
-    <Box flex={1} safeArea backgroundColor={'#fff'}>
+    <View style={{ flex: 1, backgroundColor: '#fff', safeArea: true }}>
 
       <Modal
         animationType='fade'
@@ -186,82 +188,79 @@ const searchFilter = (text) => {
 
       <StatusBar backgroundColor='#FA8488' barStyle='light-content'/>      
 
-      <Box flex={1} backgroundColor='#FA8488' borderBottomRadius={20}
-      justifyContent={'flex-end'} marginBottom='2'>
+      <View style={{
+      flex: 1, backgroundColor: '#FA8488', borderBottomRadius: 20,
+      justifyContent: 'flex-end', marginBottom: 2
+      }}>
 
-      <Animated.Image style={{transform: [{rotate: spin}], height: 200, width: 200}}
-      position='absolute' bottom={60} right={-50} opacity={0.3}
-        source={require('../../img/logopoke_m.png')} 
-        alt='imageTop'
-         />
-        <Text fontSize={40} fontWeight='black' color={'#fff'} paddingLeft={5} 
-                marginBottom={0}>
-              BulbaDex
-        </Text>
+<Animated.Image 
+        style={{
+          transform: [{ rotate: spin }],
+          height: 200,
+          width: 200,
+          position: 'absolute',
+          bottom: 60,
+          right: -50,
+          opacity: 0.3
+        }}
+        source={require('../../img/logopoke_m.png')}
+      />
 
-        <HStack w="100%" paddingX={5} alignSelf="center" marginBottom={5}>
-          <Input placeholder="Pokemon name or number" variant="filled" width="80%"
-                borderRadius="30" borderColor={'#FA8488'} py="2" px="1"
-                backgroundColor={'#f8a8ac'} color={'#fff'}
-                placeholderTextColor={'#fff'} fontWeight='normal' fontSize={14}
-                marginTop='2'
-                onChangeText={(text) => searchFilter(text)}
-                value={search}
-                InputLeftElement={<Icon ml="2" size="6" color="#fff"
-                                        as={<Ionicons name="ios-search" />} />} />
-          <Pressable width='20%'
-          onPress={() => idPokemon(Math.round(Math.random() * (905 - 1) + 1))}>
-            <Box alignItems='center' backgroundColor= '#f8a8ac' justifyContent='center' 
-                 marginLeft='3' marginRight='0' padding='2' marginTop='2.5' borderRadius='8'>
-              <Icon ml="0" size="6" color="#fff"
-                    as={<Ionicons name="gift-outline" />} />
-            </Box>
-          </Pressable>
-        </HStack>          
-      </Box>
-      
-      <Box flex={3}>
+      <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fff', paddingLeft: 5, marginBottom: 0 }}>
+        BulbaDex
+      </Text>
+
+      <View style={{ flexDirection: 'row', padding: 10, alignItems: 'center' }}>
+        <TextInput
+          style={{ flex: 1, /* Aqui você pode adicionar os estilos para o TextInput */ }}
+          placeholder="Pokemon name or number"
+          onChangeText={(text) => searchFilter(text)}
+          value={search}
+          // ... outros props
+        />
+        <Pressable 
+          style={{ width: '20%' }}
+          onPress={() => idPokemon(Math.round(Math.random() * (905 - 1) + 1))}
+        >
+          <View style={{ alignItems: 'center', backgroundColor: '#f8a8ac', justifyContent: 'center', marginLeft: 3, marginRight: 0, padding: 2, marginTop: 2.5, borderRadius: 8 }}>
+            <Text>Icone</Text>
+          </View>
+        </Pressable>
+      </View>
+
+      <View style={{ flex: 3 }}>
         {loadingPrincipal ? 
-          <View style={{flex: 1, backgroundColor: '#fff', justifyContent:'center', alignContent: 'center'}}>
+          <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color={'#FA8488'} />
-            <Text textAlign={'center'}>Loading pokemons!</Text>
+            <Text style={{ textAlign: 'center' }}>Loading pokemons!</Text>
           </View>
           :        
-        <FlashList
-          numColumns={'2'}
-          data={filteredData} //antes pokemons
-          keyExtractor={(item) => item.id.toString()}
-          //maxToRenderPerBatch={5}
-          //updateCellsBatchingPeriod={200}
-          // windowSize={3}
-          // removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-          //onEndReachedThreshold={0.1}
-          //onRefresh={() => refreshControl()}
-          //refreshing={refreshing}
-          //onEndReached={morePokemons}
-          estimatedItemSize={905}
-          ListFooterComponent={
-            loading && (
-              <View>
-                <ActivityIndicator size="large" color={'#FA8488'} />
+          <FlashList
+            numColumns={2}
+            data={filteredData}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            estimatedItemSize={905}
+            ListFooterComponent={
+              loading && (
+                <View>
+                  <ActivityIndicator size="large" color={'#FA8488'} />
+                </View>
+              )
+            }
+            ListEmptyComponent={
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FA8488', marginHorizontal: 8, marginVertical: 5, padding: 5, borderRadius: 5 }}>
+                <Text style={{ marginHorizontal: 8, color: '#fff' }}>
+                  This pokemon doesn't exist.
+                </Text>
               </View>
-            )
-          }
-          ListEmptyComponent={
-            <Box flex={1} justifyContent='center' alignContent={'center'} background='#FA8488'
-                 marginX={8} marginY='5' padding={5} borderRadius='5' >
-              <Text marginX={8} color='#fff'>
-              This pokemon doesn't exist.</Text>
-            </Box>
-          }
-          renderItem={({item}) => <CardPokemonHome pokemons={item} 
-                                                  pokemon={idPokemon}/>}
+            }
+            renderItem={({ item }) => <CardPokemonHome pokemons={item} pokemon={idPokemon} />}
           />
         }
-      </Box>
-
-    </Box>
+      </View>
+    </View>
+    </View>
     
   );
 }

@@ -1,7 +1,9 @@
-import React, {useState, useEffect, memo} from 'react';
-import { View, Pressable, StatusBar, ActivityIndicator,
-         InteractionManager, useWindowDimensions, StyleSheet } from 'react-native';
-import { Icon, HStack, Box, Text, Image, ScrollView, FlatList } from "native-base";
+import React, { useState, useEffect, memo } from 'react';
+import {
+  View, Pressable, StatusBar, ActivityIndicator, Text, Image, ScrollView, FlatList,
+  useWindowDimensions, StyleSheet, InteractionManager
+} from 'react-native';
+
 import {Ionicons} from '@expo/vector-icons';
 import axios from 'axios';
 import { FlashList } from "@shopify/flash-list";
@@ -224,11 +226,9 @@ function pokemonsEvo (id){
 if(loading)
 {
   return (
-    <View style={{flex: 1, backgroundColor: 'rgba(250,132,136,0.9)', justifyContent: 'center', 
-                  alignItems: 'center'}}>
+    <View style={{flex: 1, backgroundColor: 'rgba(250,132,136,0.9)', justifyContent: 'center', alignItems: 'center'}}>
       <Image 
-      style={{height: 250, width: 250}}
-      zIndex={-1} opacity={1} position={'absolute'}
+      style={{height: 250, width: 250, zIndex: -1, opacity: 1, position: 'absolute'}}
                 source={require('../img/logopoke_m.png')} 
                 alt='imageTop'
       />
@@ -411,118 +411,100 @@ else
  return (
   
   <ScrollView>  
-    <View backgroundColor={corTipo} flex={1}>
+    <View style={{ backgroundColor: corTipo, flex: 1 }}>
       <StatusBar backgroundColor={corTipo} barStyle='light-content'/>
 
-      <HStack space={2} justifyContent="space-between">      
+      <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>     
         <Pressable
           onPress={props.setModalVisible}
           >
-            <Icon
-              marginTop={18} marginLeft={4}
-              as={Ionicons} name="return-up-back-outline" size={30} color="#fff" _dark={{
-              color: "warmGray.50"
-            }} />
+            <Ionicons name="return-up-back-outline" size={30} color="#fff" />
         </Pressable>
 
         <Pressable   
           >
-            <Icon
-              marginTop={18} marginRight={4}
-              as={Ionicons} name="heart-outline" size={30} color="#fff" _dark={{
-              color: "warmGray.50"
-            }} />
+            <Ionicons name="heart-outline" size={30} color="#fff" />
         </Pressable> 
-      </HStack>
+      </View>
 
-      <Box >
+      <View>
       <Animated.View entering={FadeInUp.delay(100)}>
-        <Text marginLeft={10} color='#fff' fontSize={25} fontWeight={'black'}>
+      <Text style={{marginLeft: 10, color: '#fff', fontSize: 25,fontWeight: 'bold'}}>
           {formatNumber(pokemonDetalhe[0].id)}
         </Text>
         </Animated.View>
         <Animated.View entering={FadeInUp.delay(300)}>
-        <Text marginLeft={10} marginTop={-4} color='#fff' fontSize={38} fontWeight={'black'}>
+        <Text style={{marginLeft: 10, marginTop: -4, color: '#fff', fontSize: 38,fontWeight: 'bold'}}>
           {pokemonDetalhe[0].name.charAt(0).toUpperCase() +
           pokemonDetalhe[0].name.slice(1)}
         </Text>
         </Animated.View>
-      </Box>
+      </View>
 
-      <HStack space={3} justifyContent="center" alignItems={'center'}> 
+      <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
       <GestureDetector gesture={gesture3}>
       <Animated.View entering={FadeInUp.delay(900)} style={animatedStyles3}>
       <Pressable
           onPress={() => {setIdPokemon(pokemonDetalhe[0].id - 1), setLoadingImg(true)}}
           >
-            <Icon
-              marginTop={18} marginLeft={4}
-              as={Ionicons} name="chevron-back-outline" size={30} color="#fff" _dark={{
-              color: "warmGray.50"
-            }} />
+            <Ionicons name="chevron-back-outline" size={30} color="#fff" />
+            
         </Pressable>
         </Animated.View>
         </GestureDetector>
 
-      <Box>
+      <View>
       {loadingImg && <ActivityIndicator size='large' color='#fff' />}
       <GestureDetector gesture={gesture5}>
       <Animated.View entering={FadeInLeft} style={animatedStyles5}>
-      <Image 
-            alignSelf={'center'}
-            size={280} marginTop={3}
-            alt={'pokemon'} 
-            onLoadEnd={() => setLoadingImg(false)}
-            onLoadStart={() => setLoadingImg(true)}
-            source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonDetalhe[0].id}.png`}}
-            />
+      <Image
+        style={{ marginTop: 3, alignSelf: 'center', width: 280, height: 280 }}
+        onLoadEnd={() => setLoadingImg(false)}
+        onLoadStart={() => setLoadingImg(true)}
+        source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonDetalhe[0].id}.png` }}
+        resizeMode="contain" // Adicione esta linha se você quiser manter as proporções da imagem
+      />
+
        </Animated.View>
        </GestureDetector>
-      </Box>
+      </View>
       
       <GestureDetector gesture={gesture4}>
       <Animated.View entering={FadeInUp.delay(900)} style={animatedStyles4}>
       <Pressable
           onPress={() => {setIdPokemon(pokemonDetalhe[0].id + 1), setLoadingImg(true)}}
           >
-            <Icon
-              marginTop={18} marginRight={4}
-              as={Ionicons} name="chevron-forward-outline" size={30} color="#fff" _dark={{
-              color: "warmGray.50"
-            }} />
+            <Ionicons name="chevron-forward-outline" size={30} color="#fff" />
         </Pressable>
         </Animated.View>
         </GestureDetector>
-      </HStack>
+      </View>
       
 
       <Animated.Image 
-      style={[styles.imageBack, animatedStylesLoop]}
-      position='absolute' top={20} right={-70} zIndex={-1} opacity={0.3}
-                source={require('../img/logopoke_m.png')} 
-                alt='imageTop'
+        style={[styles.imageBack, animatedStylesLoop]}
+        source={require('../img/logopoke_m.png')} 
+        alt='imageTop'
       />
 
-      <HStack space={2} justifyContent="center">
-          <Box marginLeft={3} backgroundColor='rgba(255,255,255,0.3)' borderRadius={20} paddingX='4'
-              paddingY={0.4} marginBottom='1'>
-              <Text color='#fff' fontSize='12' fontWeight={900}>
+      <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+          <View style={{marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingX: 4, paddingY:0.4, marginBottom: 1}}>
+              <Text style={{color: '#fff', fontSize: 12, fontWeight: '900'}}>
                   {pokemonDetalhe[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name.charAt(0).toUpperCase() +
               pokemonDetalhe[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name.slice(1)}</Text>
-          </Box>
+          </View>
 
-          <Box>
+          <View>
           {tipo2 ? 
-          <Box marginLeft={3} backgroundColor='rgba(255,255,255,0.3)' borderRadius={20} paddingX='4'
-              paddingY={0.4}>
-              <Text color='#fff' fontSize='12' fontWeight={900}>
+          <View style={{marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingX: 4, paddingY:0.4}}>
+              <Text style={{color: '#fff', fontSize: 12, fontWeight: '900'}}>
                 {tipo2}
               </Text>
-          </Box> : ''}
-          </Box>
-      </HStack>
+          </View> : ''}
+          </View>
+      </View>
 
-      {evolucao ? <Box style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginLeft:10, marginRight: 10}}>
+      {evolucao ? <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginLeft:10, marginRight: 10}}>
         <FlashList 
         data={pokemonDetalhe[0].pokemon_v2_pokemonspecy.pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies}
         renderItem={({ item }) =>
@@ -536,19 +518,19 @@ else
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={(props) =>{
           return(
-          <View><Icon mt="16" size="6" color="#fff"
-          as={<Ionicons name="chevron-forward-outline" />} /></View>
+          <View>
+             <Ionicons name="chevron-forward-outline" size={24} color="#fff" />
+          </View>
           );
         }
         }
         />
-      </Box> : ''}
+      </View> : ''}
 
-      {form ? <Box><Text color='#fff' fontSize={25} fontWeight={'black'}
-            marginTop={10} marginLeft={10} textAlign={'left'}>
+      {form ? <View><Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 10, marginLeft: 10, textAlign: 'left'}}>
           Forms
       </Text>
-      <Box style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginLeft:10, marginRight: 10}}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginLeft:10, marginRight: 10}}>
         <FlashList 
         data={pokemonDetalhe}
         renderItem={({ item }) =>
@@ -562,199 +544,172 @@ else
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={(props) =>{
           return(
-          <View><Icon mt="16" size="6" color="#fff"
-          as={<Ionicons name="chevron-forward-outline" />} /></View>
+          <View>
+             <Ionicons name="chevron-forward-outline" size={24} color="#fff" />
+          </View>
           );
         }
         }
         />
-      </Box>
-</Box> : ''}
+      </View>
+</View> : ''}
 
 
       {idiomaPT ?
 
-      loadingPt ? <View><ActivityIndicator size='large' color='#fff' /></View>  : <Animated.View entering={FadeInDown.delay(500)} marginBottom={30}>
+      loadingPt ? <View><ActivityIndicator size='large' color='#fff' /></View>  : <Animated.View entering={FadeInDown.delay(500)} style={{marginBottom: 30}}>
         
-      <Box marginX={10}>
-      <HStack space={2}>
-        <Text color='#fff' fontSize={25} fontWeight={'black'}
-              marginTop={8}
-        >
+      <View style={{marginLeft: 10}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 8}}>
           Sobre
         </Text>
 
         <Pressable onPress={() => {mudarIdioma()}}>
-          <Box background={'rgba(255,255,255,0)'} padding={1.5} paddingLeft='2' paddingRight={2} borderRadius={8} marginTop={9}>
-            <Text fontSize={13} fontWeight={'black'} color={'rgba(255,255,255,0)'}>{idioma}</Text>
-          </Box>
+          <View style={{background: 'rgba(255,255,255,0)', padding: 1.5, paddingLeft: 2, paddingRight: 2, borderRadius: 8, marginTop: 9}} >
+            <Text style={{fontSize: 13, fontWeight: 'bold', color: 'rgba(255,255,255,0)'}}>{idioma}</Text>
+          </View>
         </Pressable>
-      </HStack>
+      </View>
 
-      <HStack space={2} justifyContent={'space-between'}>
-        <Box>
-        <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View>
+        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
         >
           Peso<Text fontWeight='400'>: {pokemonDetalhe[0].weight / 10} kg</Text></Text>
-        </Box>
+        </View>
 
-        <Box>
-        <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
+        <View>
+        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
         >
           Altura<Text fontWeight='400'>: {pokemonDetalhe[0].height / 10} m</Text></Text>
-        </Box>
-      </HStack>
+        </View>
+      </View>
 
-      <HStack space={2} justifyContent={'space-between'}>
-        <Box>
-        <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View>
+        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
         >
           Geração<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.generation_id}</Text></Text>
-        </Box>
+        </View>
 
-        <Box>
-        <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
+        <View>
+        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
         >
           Taxa de Captura<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.capture_rate}/255</Text></Text>
-        </Box>
-      </HStack>
+        </View>
+      </View>
 
-      <Text color='#fff' fontSize={15}
-            marginTop={2} textAlign={'justify'}>
+      <Text style={{color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justyfy'}}>
         {pokemonDetalhePT.descricao_1}
       </Text>
-      <Text color='#fff' fontSize={15}
-            marginTop={2} textAlign={'justify'}>
+      <Text style={{color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justyfy'}}>
         {pokemonDetalhePT.descricao_2}
       </Text>
 
-      <Text color='#fff' fontSize={25} fontWeight={'black'}
-            marginTop={2}
-      >
+       <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 2 }}>
         Habilidades
       </Text>
       
       <View>
-      <FlatList 
-      data={pokemonDetalhePT.habilidades}
-      
-      renderItem={({ item }) =>
-      <View padding={10} backgroundColor={'rgba(255,255,255,0.2)'} borderRadius={10} width={180}
-            marginRight={12} marginTop={5}>
-        <Text textTransform={'uppercase'} fontWeight='bold' color={'#fff'}>{item.habilidade_nome}</Text>
-        <Text marginTop={2} color={'#fff'}>{item.habilidade_descricao}</Text>
+        <FlatList 
+          data={pokemonDetalhePT.habilidades}
+          renderItem={({ item }) => (
+            <View style={{ padding: 10, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 10, width: 180, marginRight: 12, marginTop: 5 }}>
+              <Text style={{ textTransform: 'uppercase', fontWeight: 'bold', color: '#fff' }}>
+                {item.habilidade_nome}
+              </Text>
+              <Text style={{ marginTop: 2, color: '#fff' }}>
+                {item.habilidade_descricao}
+              </Text>
+            </View>
+          )}
+          keyExtractor={item => item.id.toString()}
+          estimatedItemSize={3}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
-      
-      }
-      estimatedItemSize={3}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      // ItemSeparatorComponent={(props) =>{
-      //   return(
-      //   <View><Icon mt="16" size="6" color="#fff"
-      //   as={<Ionicons name="chevron-forward-outline" />} /></View>
-      //   );
-      // }
-      // }
-      />  
       </View>
 
-      </Box>
+      {/* ... Outros componentes ... */}
     </Animated.View>
-      
       
       :
       
-      <Animated.View entering={FadeInDown.delay(500)} marginBottom={30}>
-        
-        <Box marginX={10}>
-        <HStack space={2}>
-          <Text color='#fff' fontSize={25} fontWeight={'black'}
-                marginTop={8}
-          >
+      <Animated.View style={{ marginBottom: 30 }}>
+      <View style={{ marginHorizontal: 10 }}>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 8 }}>
             About
           </Text>
 
-          <Pressable onPress={() => {mudarIdioma(), setIdiomaPT(true)}}>
-            <Box background={'rgba(255,255,255,0)'} padding={1.5} paddingLeft='2' paddingRight={2} borderRadius={8} marginTop={9}>
-              <Text fontSize={13} fontWeight={'black'} color={'rgba(255,255,255,0)'}>{idioma}</Text>
-            </Box>
+          <Pressable onPress={() => { mudarIdioma(); setIdiomaPT(true); }}>
+            <View style={{ backgroundColor: 'rgba(255,255,255,0)', padding: 1.5, paddingLeft: 2, paddingRight: 2, borderRadius: 8, marginTop: 9 }}>
+              <Text style={{ fontSize: 13, fontWeight: 'bold', color: 'rgba(255,255,255,0)' }}>{idioma}</Text>
+            </View>
           </Pressable>
-        </HStack>
+        </View>
 
-        <HStack space={2} justifyContent={'space-between'}>
-          <Box>
-          <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
-          >
-            Weight<Text fontWeight='400'>: {pokemonDetalhe[0].weight / 10} kg</Text></Text>
-          </Box>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, marginBottom: 2, marginTop: 2 }}>
+              Weight<Text style={{ fontWeight: '400' }}>: {pokemonDetalhe[0].weight / 10} kg</Text>
+            </Text>
+          </View>
 
-          <Box>
-          <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
-          >
-            Height<Text fontWeight='400'>: {pokemonDetalhe[0].height / 10} m</Text></Text>
-          </Box>
-        </HStack>
+          <View>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, marginBottom: 2, marginTop: 2 }}>
+              Height<Text style={{ fontWeight: '400' }}>: {pokemonDetalhe[0].height / 10} m</Text>
+            </Text>
+          </View>
+        </View>
 
-        <HStack space={2} justifyContent={'space-between'}>
-          <Box>
-          <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
-          >
-            Generation<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.generation_id}</Text></Text>
-          </Box>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, marginBottom: 2, marginTop: 2 }}>
+              Generation<Text style={{ fontWeight: '400' }}>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.generation_id}</Text>
+            </Text>
+          </View>
 
-          <Box>
-          <Text color='#fff' fontWeight='bold' fontSize={16} marginBottom={2} marginTop={2}
-          >
-            Capture Rate<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.capture_rate}/255</Text></Text>
-          </Box>
-        </HStack>
+          <View>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16, marginBottom: 2, marginTop: 2 }}>
+              Capture Rate<Text style={{ fontWeight: '400' }}>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.capture_rate}/255</Text>
+            </Text>
+          </View>
+        </View>
 
-        <Text color='#fff' fontSize={15}
-              marginTop={2} textAlign={'justify'}>
+        <Text style={{ color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justify' }}>
           {descricao1Ajustada}
         </Text>
-        <Text color='#fff' fontSize={15}
-              marginTop={2} textAlign={'justify'}>
+        <Text style={{ color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justify' }}>
           {descricao2Ajustada}
         </Text>
 
-        <Text color='#fff' fontSize={25} fontWeight={'black'}
-              marginTop={2}
-        >
+        <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 2 }}>
           Ability
         </Text>
         
         <View>
-        <FlatList 
-        data={pokemonDetalhe[0].pokemon_v2_pokemonabilities}
-        
-        renderItem={({ item }) =>
-        <View padding={10} backgroundColor={'rgba(255,255,255,0.2)'} borderRadius={10} width={180}
-              marginRight={12} marginTop={5}>
-          <Text textTransform={'uppercase'} fontWeight='bold' color={'#fff'}>{item.pokemon_v2_ability.name}</Text>
-          <Text marginTop={2} color={'#fff'}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[0]?.short_effect}</Text>
-          <Text marginTop={2} color={'#fff'}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[1]?.short_effect}</Text>
-          <Text marginTop={2} color={'#fff'}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[2]?.short_effect}</Text>
+          <FlatList 
+            data={pokemonDetalhe[0].pokemon_v2_pokemonabilities}
+            renderItem={({ item }) => (
+              <View style={{ padding: 10, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 10, width: 180, marginRight: 12, marginTop: 5 }}>
+                <Text style={{ textTransform: 'uppercase', fontWeight: 'bold', color: '#fff' }}>{item.pokemon_v2_ability.name}</Text>
+                <Text style={{ marginTop: 2, color: '#fff' }}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[0]?.short_effect}</Text>
+                <Text style={{ marginTop: 2, color: '#fff' }}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[1]?.short_effect}</Text>
+                <Text style={{ marginTop: 2, color: '#fff' }}>{item.pokemon_v2_ability.pokemon_v2_abilityeffecttexts[2]?.short_effect}</Text>
+              </View>
+            )}
+            keyExtractor={item => item.id.toString()}
+            estimatedItemSize={3}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />  
         </View>
-        
-        }
-        keyExtractor={item => item.id}
-        estimatedItemSize={3}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        // ItemSeparatorComponent={(props) =>{
-        //   return(
-        //   <View><Icon mt="16" size="6" color="#fff"
-        //   as={<Ionicons name="chevron-forward-outline" />} /></View>
-        //   );
-        // }
-        // }
-        />  
-        </View>
-
-        </Box>
-      </Animated.View>}
+      </View>
+    </Animated.View>}
       
       
 
@@ -772,6 +727,11 @@ export default memo(ModalPokemon);
 const styles = StyleSheet.create({
   imageBack:{
     width: 450,
-    height: 450
+    height: 450,
+    position: 'absolute',
+    top: 20,
+    right: -70,
+    zIndex: -1,
+    opacity: 0.3
   }
 })

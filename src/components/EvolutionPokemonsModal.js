@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Pressable, Image, Text } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, BounceIn } from 'react-native-reanimated';
 import { GestureDetector , Gesture} from 'react-native-gesture-handler';
-import { Text, Image } from "native-base";
 
 export default function EvolutionPokemons({data}) {
 
@@ -34,16 +33,15 @@ export default function EvolutionPokemons({data}) {
  
     <GestureDetector gesture={gesture2}>
     <Animated.View style={animatedStyles2} entering={BounceIn.delay(100)}>     
-      <Image 
-        alignSelf={'center'}
-        size={100} marginTop={3}
-        alt={'pokemon'}
-        // onLoadEnd={() => setLoadingImgEvo(false)}
-        // onLoadStart={() => setLoadingImgEvo(true)}
-        source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}}
-        />
+    <Image 
+  style={{ alignSelf: 'center', marginTop: 3, width: 100, height: 100 }} 
+  source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png` }}
+  // onLoadEnd={() => setLoadingImgEvo(false)}
+  // onLoadStart={() => setLoadingImgEvo(true)}
+/>
+
     
-      <Text textAlign={'center'} color='#fff'>{data.name}</Text> 
+      <Text style={{textAlign: 'center', color: '#fff'}}>{data.name}</Text> 
     </Animated.View> 
     </GestureDetector>
   );

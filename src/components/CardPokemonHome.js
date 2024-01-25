@@ -1,6 +1,5 @@
 import React, { useState, memo } from 'react';
-import { ImageBackground, useWindowDimensions, Pressable, ActivityIndicator  } from 'react-native';
-import { Text, Box, HStack, Image, Modal  } from "native-base";
+import { ImageBackground, useWindowDimensions, Pressable, ActivityIndicator, View, Text, Image } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { GestureDetector , Gesture} from 'react-native-gesture-handler';
@@ -129,63 +128,61 @@ function CardPokemonHome (props){
     }
 
     return(
-    <GestureDetector gesture={gesture}>
+<GestureDetector gesture={gesture}>
       <Pressable onPress={() => passarId(props.pokemons.id)}>
-        <Animated.View style={[animatedStyles]}
-        width={180} height={120} borderRadius={16} marginLeft={(width * 0.022)}
-        marginRight={(width * 0.022)} marginTop={(height * 0.006)} marginBottom={(height * 0.006)}
-             backgroundColor={corTipo}>
-            <HStack space={2} justifyContent="space-between" marginBottom={2}>
-                <Text color={'#fff'} paddingTop={4} paddingLeft={3} fontSize={13}
-                    fontWeight={'bold'}>
-                        {props.pokemons.name.charAt(0).toUpperCase() +
-                        props.pokemons.name.slice(1)}
+        <Animated.View style={{
+          width: 180, 
+          height: 120, 
+          borderRadius: 16, 
+          marginLeft: width * 0.022, 
+          marginRight: width * 0.022, 
+          marginTop: height * 0.006, 
+          marginBottom: height * 0.006, 
+          backgroundColor: corTipo
+        }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <Text style={{ color: '#fff', paddingTop: 4, paddingLeft: 3, fontSize: 13, fontWeight: 'bold' }}>
+              {props.pokemons.name.charAt(0).toUpperCase() + props.pokemons.name.slice(1)}
+            </Text>
+
+            <Text style={{ paddingTop: 2, paddingRight: 3, fontSize: 25, color: '#fff', fontWeight: 'bold', opacity: 0.4 }}>
+              {formatNumber(props.pokemons.id)}
+            </Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View>
+              <View style={{ marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, padding: 4, marginBottom: 1 }}>
+                <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500' }}>
+                  {props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.charAt(0).toUpperCase() + props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.slice(1)}
                 </Text>
+              </View>
+              {tipo2 ? 
+                <View style={{ marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, padding: 4 }}>
+                  <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500' }}>
+                    {tipo2}
+                  </Text>
+                </View> : null}
+            </View>
 
-                <Text paddingTop={2} paddingRight={3} fontSize={25}
-                      color={'#fff'} fontWeight={'black'} opacity='0.4'>
-                    {formatNumber(props.pokemons.id)}
-                </Text>
-            </HStack>
+            <View>
+              {loading && <ActivityIndicator size="large" color="#fff" />}
+              <Image 
+                style={{ width: 100, height: 100, marginTop: -5 }}
+                onLoadStart={() => setLoading(true)}
+                onLoadEnd={() => setLoading(false)}
+                source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.pokemons.id}.png` }} 
+              />
+            </View>
+          </View>
 
-            <HStack space={2} justifyContent="space-between">
-                <Box>
-                    <Box marginLeft={3} backgroundColor='rgba(255,255,255,0.3)' borderRadius={20} paddingX='4'
-                         paddingY={0.4} marginBottom='1'>
-                        <Text color='#fff' fontSize='12' fontWeight={500}>
-                            {props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.charAt(0).toUpperCase() +
-                        props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.slice(1)}</Text>
-                    </Box>
-                    <Box>
-                    {tipo2 ? 
-                    <Box marginLeft={3} backgroundColor='rgba(255,255,255,0.3)' borderRadius={20} paddingX='4'
-                         paddingY={0.4}>
-                        <Text color='#fff' fontSize='12' fontWeight={500}>
-                           {tipo2}
-                        </Text>
-                    </Box> : ''}
-                    </Box>
-                </Box>
-
-                <Box>
-                {loading && <ActivityIndicator size="large" color="#fff" />}
-                    <Image size={100} marginTop={-5}
-                    alt={'pokemon'}
-                    onLoadStart={() => setLoading(true)}
-                    onLoadEnd={() => setLoading(false)}
-                    source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.pokemons.id}.png`}} 
-                    //source={{uri:`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${formatNumberImg(props.pokemons.id)}.png`}} 
-                    />
-                </Box>
-            </HStack>
-
-            <Image size={100} position='absolute' bottom={-20} right={-18} zIndex='-1' opacity={0.3}
-                source={require('../img/logopoke_m.png')} 
-                alt='imageTop'
-                />
+          <Image 
+            style={{ width: 100, height: 100, position: 'absolute', bottom: -20, right: -18, zIndex: -1, opacity: 0.3 }}
+            source={require('../img/logopoke_m.png')} 
+          />
         </Animated.View>
-        </Pressable>
-        </GestureDetector>
+      </Pressable>
+    </GestureDetector>
     );
 }
 
