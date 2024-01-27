@@ -21,8 +21,6 @@ function ModalPokemon(props) {
   const [loadingImgEvo, setLoadingImgEvo] = useState(true);
   const [loadingPt, setLoadingPt] = useState(false);
   const [idType, setIdType] = useState('pokemon_species_id: ');
-  const [idioma, setIdioma] = useState('pt');
-  const [idiomaPT, setIdiomaPT] = useState(false);
   const [pokemonDetalhePT, setPokemonDetalhePT] = useState([]);
 
 
@@ -370,42 +368,6 @@ else
     form = true;
   }
 
-  function mudarIdioma (){
-    if(idioma == 'pt')
-    {
-      setIdioma('en');
-      setIdiomaPT(true);
-
-      async function loadPokemonDetalhePT (){
-  
-        const formData = new FormData();
-        formData.append('idPokemon', idPokemon);
-  
-        await axios.post('https://felipefalcao.com.br/appPokedex/', formData, {
-          headers: { 'Content-Type': 'multipart/form-data'}
-        }).then(response => {
-          //console.log(response.data);
-          setPokemonDetalhePT(response.data);
-          setLoadingPt(false);
-    
-        setLoading(false);
-        }).catch(error => {
-          //console.log(error);
-        });
-        
-      }
-  
-      loadPokemonDetalhePT();
-      
-      
-    }
-    else
-    {
-      setIdioma('pt');
-      setIdiomaPT(false);
-    }
-  }
-
   //console.log(pokemonDetalhePT);
 
  return (
@@ -414,37 +376,37 @@ else
     <View style={{ backgroundColor: corTipo, flex: 1 }}>
       <StatusBar backgroundColor={corTipo} barStyle='light-content'/>
 
-      <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>     
+      <View style={{ flexDirection: 'row', justifyContent: "flex-start", marginLeft: 25, marginTop: 15 }}>     
         <Pressable
           onPress={props.setModalVisible}
           >
             <Ionicons name="return-up-back-outline" size={30} color="#fff" />
         </Pressable>
 
-        <Pressable   
+        {/* <Pressable   
           >
             <Ionicons name="heart-outline" size={30} color="#fff" />
-        </Pressable> 
+        </Pressable>  */}
       </View>
 
       <View>
       <Animated.View entering={FadeInUp.delay(100)}>
-      <Text style={{marginLeft: 10, color: '#fff', fontSize: 25,fontWeight: 'bold'}}>
+      <Text style={{marginLeft: 10, color: '#fff', fontSize: 25,fontWeight: '800', marginLeft: 50}}>
           {formatNumber(pokemonDetalhe[0].id)}
         </Text>
         </Animated.View>
         <Animated.View entering={FadeInUp.delay(300)}>
-        <Text style={{marginLeft: 10, marginTop: -4, color: '#fff', fontSize: 38,fontWeight: 'bold'}}>
+        <Text style={{marginLeft: 10, marginTop: -4, color: '#fff', fontSize: 38,fontWeight: '800', marginLeft: 50}}>
           {pokemonDetalhe[0].name.charAt(0).toUpperCase() +
           pokemonDetalhe[0].name.slice(1)}
         </Text>
         </Animated.View>
       </View>
 
-      <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
+      <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
       <GestureDetector gesture={gesture3}>
       <Animated.View entering={FadeInUp.delay(900)} style={animatedStyles3}>
-      <Pressable
+      <Pressable style={{marginLeft: 15}}
           onPress={() => {setIdPokemon(pokemonDetalhe[0].id - 1), setLoadingImg(true)}}
           >
             <Ionicons name="chevron-back-outline" size={30} color="#fff" />
@@ -452,7 +414,6 @@ else
         </Pressable>
         </Animated.View>
         </GestureDetector>
-
       <View>
       {loadingImg && <ActivityIndicator size='large' color='#fff' />}
       <GestureDetector gesture={gesture5}>
@@ -471,7 +432,7 @@ else
       
       <GestureDetector gesture={gesture4}>
       <Animated.View entering={FadeInUp.delay(900)} style={animatedStyles4}>
-      <Pressable
+      <Pressable style={{marginRight: 15}}
           onPress={() => {setIdPokemon(pokemonDetalhe[0].id + 1), setLoadingImg(true)}}
           >
             <Ionicons name="chevron-forward-outline" size={30} color="#fff" />
@@ -487,8 +448,8 @@ else
         alt='imageTop'
       />
 
-      <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
-          <View style={{marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingX: 4, paddingY:0.4, marginBottom: 1}}>
+      <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center', marginBottom: 20, marginTop: 10}}>
+          <View style={{marginLeft: 0, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingHorizontal: 15, paddingVertical:2, marginBottom: 1}}>
               <Text style={{color: '#fff', fontSize: 12, fontWeight: '900'}}>
                   {pokemonDetalhe[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name.charAt(0).toUpperCase() +
               pokemonDetalhe[0].pokemon_v2_pokemontypes[0].pokemon_v2_type.name.slice(1)}</Text>
@@ -496,7 +457,7 @@ else
 
           <View>
           {tipo2 ? 
-          <View style={{marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingX: 4, paddingY:0.4}}>
+          <View style={{marginLeft: 10, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, paddingHorizontal: 15, paddingVertical:2}}>
               <Text style={{color: '#fff', fontSize: 12, fontWeight: '900'}}>
                 {tipo2}
               </Text>
@@ -518,7 +479,7 @@ else
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={(props) =>{
           return(
-          <View>
+          <View style={{justifyContent: 'center'}}>
              <Ionicons name="chevron-forward-outline" size={24} color="#fff" />
           </View>
           );
@@ -527,7 +488,7 @@ else
         />
       </View> : ''}
 
-      {form ? <View><Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 10, marginLeft: 10, textAlign: 'left'}}>
+      {form ? <View><Text style={{color: '#fff', fontSize: 25, fontWeight: '800', marginTop: 30, marginLeft: 50, textAlign: 'left'}}>
           Forms
       </Text>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginLeft:10, marginRight: 10}}>
@@ -544,7 +505,7 @@ else
         showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={(props) =>{
           return(
-          <View>
+          <View style={{justifyContent: 'center'}}>
              <Ionicons name="chevron-forward-outline" size={24} color="#fff" />
           </View>
           );
@@ -554,102 +515,13 @@ else
       </View>
 </View> : ''}
 
-
-      {idiomaPT ?
-
-      loadingPt ? <View><ActivityIndicator size='large' color='#fff' /></View>  : <Animated.View entering={FadeInDown.delay(500)} style={{marginBottom: 30}}>
-        
-      <View style={{marginLeft: 10}}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 8}}>
-          Sobre
-        </Text>
-
-        <Pressable onPress={() => {mudarIdioma()}}>
-          <View style={{background: 'rgba(255,255,255,0)', padding: 1.5, paddingLeft: 2, paddingRight: 2, borderRadius: 8, marginTop: 9}} >
-            <Text style={{fontSize: 13, fontWeight: 'bold', color: 'rgba(255,255,255,0)'}}>{idioma}</Text>
-          </View>
-        </Pressable>
-      </View>
-
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <View>
-        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
-        >
-          Peso<Text fontWeight='400'>: {pokemonDetalhe[0].weight / 10} kg</Text></Text>
-        </View>
-
-        <View>
-        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
-        >
-          Altura<Text fontWeight='400'>: {pokemonDetalhe[0].height / 10} m</Text></Text>
-        </View>
-      </View>
-
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <View>
-        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
-        >
-          Geração<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.generation_id}</Text></Text>
-        </View>
-
-        <View>
-        <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2, marginTop: 2}}
-        >
-          Taxa de Captura<Text fontWeight='400'>: {pokemonDetalhe[0].pokemon_v2_pokemonspecy.capture_rate}/255</Text></Text>
-        </View>
-      </View>
-
-      <Text style={{color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justyfy'}}>
-        {pokemonDetalhePT.descricao_1}
-      </Text>
-      <Text style={{color: '#fff', fontSize: 15, marginTop: 2, textAlign: 'justyfy'}}>
-        {pokemonDetalhePT.descricao_2}
-      </Text>
-
-       <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 2 }}>
-        Habilidades
-      </Text>
-      
-      <View>
-        <FlatList 
-          data={pokemonDetalhePT.habilidades}
-          renderItem={({ item }) => (
-            <View style={{ padding: 10, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 10, width: 180, marginRight: 12, marginTop: 5 }}>
-              <Text style={{ textTransform: 'uppercase', fontWeight: 'bold', color: '#fff' }}>
-                {item.habilidade_nome}
-              </Text>
-              <Text style={{ marginTop: 2, color: '#fff' }}>
-                {item.habilidade_descricao}
-              </Text>
-            </View>
-          )}
-          keyExtractor={item => item.id.toString()}
-          estimatedItemSize={3}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-      </View>
-
-      {/* ... Outros componentes ... */}
-    </Animated.View>
-      
-      :
-      
       <Animated.View style={{ marginBottom: 30 }}>
-      <View style={{ marginHorizontal: 10 }}>
+      <View style={{ marginHorizontal: 30 }}>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 8 }}>
+          <Text style={{ color: '#fff', fontSize: 25, fontWeight: '800', marginTop: 30, marginLeft: 20 }}>
             About
           </Text>
-
-          <Pressable onPress={() => { mudarIdioma(); setIdiomaPT(true); }}>
-            <View style={{ backgroundColor: 'rgba(255,255,255,0)', padding: 1.5, paddingLeft: 2, paddingRight: 2, borderRadius: 8, marginTop: 9 }}>
-              <Text style={{ fontSize: 13, fontWeight: 'bold', color: 'rgba(255,255,255,0)' }}>{idioma}</Text>
-            </View>
-          </Pressable>
         </View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -687,7 +559,7 @@ else
           {descricao2Ajustada}
         </Text>
 
-        <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', marginTop: 2 }}>
+        <Text style={{ color: '#fff', fontSize: 25, fontWeight: '800', marginLeft: 20,  marginTop: 20 }}>
           Ability
         </Text>
         
@@ -709,7 +581,7 @@ else
           />  
         </View>
       </View>
-    </Animated.View>}
+    </Animated.View>
       
       
 

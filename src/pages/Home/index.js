@@ -63,7 +63,7 @@ function idPokemon(id){
 
 const getPokemons = async () => {
   const query = `query MyQuery {
-    pokemon_v2_pokemon (limit: 1008) {
+    pokemon_v2_pokemon (limit: 1025) {
       id
       name
       pokemon_species_id
@@ -121,7 +121,7 @@ const getPokemons = async () => {
       return;
     }
 
-    if(pokemons.length == 905)
+    if(pokemons.length == 1025)
     {
       //console.log(pokemons.length);
       return;
@@ -188,10 +188,8 @@ const searchFilter = (text) => {
 
       <StatusBar backgroundColor='#FA8488' barStyle='light-content'/>      
 
-      <View style={{
-      flex: 1, backgroundColor: '#FA8488', borderBottomRadius: 20,
-      justifyContent: 'flex-end', marginBottom: 2
-      }}>
+      <View style={{backgroundColor: '#FA8488', borderBottomEndRadius: 20, borderBottomStartRadius: 20, marginBottom: 0, paddingHorizontal: 15,
+                    paddingTop: 50}}>
 
 <Animated.Image 
         style={{
@@ -200,33 +198,40 @@ const searchFilter = (text) => {
           width: 200,
           position: 'absolute',
           bottom: 60,
-          right: -50,
+          right: -40,
           opacity: 0.3
         }}
         source={require('../../img/logopoke_m.png')}
       />
 
-      <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#fff', paddingLeft: 5, marginBottom: 0 }}>
+      <Text style={{ fontSize: 40, fontWeight: '800', color: '#fff', paddingLeft: 5, marginBottom: 0 }}>
         BulbaDex
       </Text>
 
-      <View style={{ flexDirection: 'row', padding: 10, alignItems: 'center' }}>
-        <TextInput
-          style={{ flex: 1, /* Aqui você pode adicionar os estilos para o TextInput */ }}
-          placeholder="Pokemon name or number"
-          onChangeText={(text) => searchFilter(text)}
-          value={search}
-          // ... outros props
-        />
+      <View style={{ flexDirection: 'row', padding: 10, alignItems: 'center', marginBottom: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFA9AF', borderRadius: 30, height: 45, width: '80%' }}>
+          <Ionicons name="search" size={20} color="white" style={{ marginLeft: 10 }} />
+          <TextInput
+            style={{ flex: 1, paddingLeft: 10, color: 'white' }} // Estilos inline para o TextInput
+            placeholder="Pokemon name or number"
+            placeholderTextColor="white" // Altera a cor do texto do placeholder
+            onChangeText={(text) => searchFilter(text)}
+            value={search}
+          />
+        </View>
         <Pressable 
           style={{ width: '20%' }}
           onPress={() => idPokemon(Math.round(Math.random() * (905 - 1) + 1))}
         >
-          <View style={{ alignItems: 'center', backgroundColor: '#f8a8ac', justifyContent: 'center', marginLeft: 3, marginRight: 0, padding: 2, marginTop: 2.5, borderRadius: 8 }}>
-            <Text>Icone</Text>
+          <View style={{ backgroundColor: '#f8a8ac', borderRadius: 8, height: 45, justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
+            <Ionicons name="gift-outline" size={30} color="white" style={{ }} />
+            <Text style={{color: '#fff', fontSize: 8}}>Surprise me</Text>
           </View>
         </Pressable>
       </View>
+      </View>
+
+      <View style={{flex: 1}}>
 
       <View style={{ flex: 3 }}>
         {loadingPrincipal ? 
@@ -240,7 +245,7 @@ const searchFilter = (text) => {
             data={filteredData}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
-            estimatedItemSize={905}
+            estimatedItemSize={1025}
             ListFooterComponent={
               loading && (
                 <View>

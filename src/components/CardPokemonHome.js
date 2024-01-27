@@ -141,25 +141,25 @@ function CardPokemonHome (props){
           backgroundColor: corTipo
         }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
-            <Text style={{ color: '#fff', paddingTop: 4, paddingLeft: 3, fontSize: 13, fontWeight: 'bold' }}>
+            <Text style={{ color: '#fff', paddingTop: 15, paddingLeft: 12, fontSize: 13, fontWeight: '800' }}>
               {props.pokemons.name.charAt(0).toUpperCase() + props.pokemons.name.slice(1)}
             </Text>
 
-            <Text style={{ paddingTop: 2, paddingRight: 3, fontSize: 25, color: '#fff', fontWeight: 'bold', opacity: 0.4 }}>
+            <Text style={{ paddingTop: 10, paddingRight: 12, fontSize: 25, color: '#fff', fontWeight: '800', opacity: 0.4 }}>
               {formatNumber(props.pokemons.id)}
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10 }}>
             <View>
-              <View style={{ marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, padding: 4, marginBottom: 1 }}>
-                <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500' }}>
+              <View style={{ width: 60, marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, padding: 4, marginBottom: 3 }}>
+                <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500', textAlign: 'center' }}>
                   {props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.charAt(0).toUpperCase() + props.pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name.slice(1)}
                 </Text>
               </View>
               {tipo2 ? 
                 <View style={{ marginLeft: 3, backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: 20, padding: 4 }}>
-                  <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500' }}>
+                  <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500',  textAlign: 'center' }}>
                     {tipo2}
                   </Text>
                 </View> : null}
@@ -168,7 +168,7 @@ function CardPokemonHome (props){
             <View>
               {loading && <ActivityIndicator size="large" color="#fff" />}
               <Image 
-                style={{ width: 100, height: 100, marginTop: -5 }}
+                style={{ width: 100, height: 100, marginTop: -12 }}
                 onLoadStart={() => setLoading(true)}
                 onLoadEnd={() => setLoading(false)}
                 source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${props.pokemons.id}.png` }} 
