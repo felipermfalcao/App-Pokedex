@@ -1,7 +1,9 @@
 
 # Pokélist
 
-App desenvolvido em React Native. Ainda tentando publicar o app na Play Store, estou tendo problemas com a política e as minhas screenshots.
+App desenvolvido em React Native.
+
+Aplicativo publicado - [Play Store](https://play.google.com/store/apps/details?id=com.falcondev.bulbadex)
 
 - [API - Pokeapi](pokeapi.co)
 
